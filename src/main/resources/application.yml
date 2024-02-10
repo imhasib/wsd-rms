@@ -18,3 +18,8 @@ spring:
       hibernate:
         dialect:
         format_sql: true
+logging:
+  file:
+    name: rms.log
+  level:
+    root: INFO

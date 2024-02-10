@@ -6,6 +6,8 @@ import com.hsb.rms.repository.ItemRepository;
 import com.hsb.rms.service.ItemService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import java.util.stream.IntStream;
 @Transactional
 public class ItemServiceImpl implements ItemService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
     private final ItemRepository itemRepository;
 
     @Autowired
@@ -46,6 +49,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item save(Item item) {
         item = itemRepository.save(item);
+        logger.info("Item created:" + item.getName());
         return item;
     }
 
@@ -58,6 +62,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Page<Item> findAll(Pageable pageable) {
+        logger.info("Fetching item list.");
         return itemRepository.findAll(pageable);
     }
 
@@ -68,6 +73,7 @@ public class ItemServiceImpl implements ItemService {
             throw new ItemNotFoundException(id);
         }
 
+        logger.info("Item found:" + item.get().getName());
         return item.get();
     }
 
