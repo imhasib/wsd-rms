@@ -1,6 +1,7 @@
 package com.hsb.rms.repository.impl;
 
 import com.hsb.rms.domain.Item;
+import com.hsb.rms.exception.ItemNotFoundException;
 import com.hsb.rms.repository.ItemRepository;
 import com.hsb.rms.service.ItemService;
 import jakarta.annotation.PostConstruct;
@@ -61,8 +62,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<Item> findOne(Long id) {
-        return itemRepository.findById(id);
+    public Item findOne(Long id) {
+        Optional<Item> item = itemRepository.findById(id);
+        if (item.isEmpty()) {
+            throw new ItemNotFoundException(id);
+        }
+
+        return item.get();
     }
 
     @Override

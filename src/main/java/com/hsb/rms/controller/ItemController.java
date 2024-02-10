@@ -1,6 +1,8 @@
 package com.hsb.rms.controller;
 
 import com.hsb.rms.domain.Item;
+import com.hsb.rms.exception.InvalidInputException;
+import com.hsb.rms.exception.ItemNotFoundException;
 import com.hsb.rms.service.ItemService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -34,19 +36,16 @@ public class ItemController {
             @NotNull @RequestBody Item item
     ) {
         if (item.getId() == null) {
-            return ResponseEntity.badRequest().build();
+            throw new ItemNotFoundException();
         }
 
         if (!Objects.equals(id, item.getId())) {
-            return ResponseEntity.badRequest().build();
+            new InvalidInputException("id");
         }
-        Optional<Item> itemOpt = itemService.findOne(id);
-        if (itemOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            Optional<Item> result = itemService.update(item);
-            return new ResponseEntity<>(result.get(), HttpStatus.CREATED);
-        }
+        itemService.findOne(id);
+        Optional<Item> result = itemService.update(item);
+
+        return ResponseEntity.ok(result.get());
     }
 
     @GetMapping("")
@@ -62,13 +61,9 @@ public class ItemController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the itemDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItem(@PathVariable("id") Long id) {
-        Optional<Item> itemOpt = itemService.findOne(id);
-        if (itemOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(itemOpt.get());
-        }
+    public ResponseEntity<Item> getItem(@NotNull @PathVariable("id") Long id) {
+        Item item = itemService.findOne(id);
+        return ResponseEntity.ok(item);
     }
 
     /**

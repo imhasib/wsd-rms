@@ -39,7 +39,7 @@ public interface ItemService {
      * @param id the id of the item.
      * @return the item.
      */
-    Optional<Item> findOne(Long id);
+    Item findOne(Long id);
 
     /**
      * Delete the item by Id.
