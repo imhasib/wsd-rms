@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     @GetMapping()
     public String home() {
-        return "Bingo! Its Working";
+        return "Bingo! Its Working.";
     }
 }

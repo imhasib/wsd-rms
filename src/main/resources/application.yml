@@ -1,4 +1,7 @@
 spring:
+  devtools:
+    restart:
+      pool-interval: 2
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/rms
@@ -10,7 +13,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect:
