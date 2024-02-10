@@ -31,21 +31,6 @@ public class ItemServiceImpl implements ItemService {
         this.itemRepository = itemRepository;
     }
 
-//    @PostConstruct
-//    public void initDb() {
-//        Random random = new Random();
-//        List<Item> items = IntStream.rangeClosed(1, 200).mapToObj(i -> {
-//            Item item = new Item();
-//            item.setName("Item # " + i);
-//            item.setUnit(random.nextInt(1000) + "gram");
-//            item.setPrice(random.nextLong(5000));
-//            item.setDetails("Auto generated");
-//            return item;
-//        }).collect(Collectors.toList());
-//
-//        this.itemRepository.saveAll(items);
-//    }
-
     @Override
     public Item save(Item item) {
         item = itemRepository.save(item);

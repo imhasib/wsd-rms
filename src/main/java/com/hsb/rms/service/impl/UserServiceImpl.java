@@ -38,21 +38,6 @@ public class UserServiceImpl implements UserService {
         this.accountMapper = accountMapper;
     }
 
-    //    @PostConstruct
-//    public void initDb() {
-//        List<User> users = IntStream.rangeClosed(1, 20).mapToObj(i -> {
-//            User user = new User();
-//            user.setName("User-" + i);
-//            user.setEmail("user" + i + "@random.com");
-//            user.setLogin(user.getLogin());
-//            user.setPassword(i+"");
-//            user.setActivated(true);
-//            return user;
-//        }).collect(Collectors.toList());
-//
-//        userRepository.saveAll(users);
-//    }
-
     @Override
     public UserDto save(AccountDto accountDto) {
         if(findOneByEmail(accountDto.getEmail()).isPresent()) {
