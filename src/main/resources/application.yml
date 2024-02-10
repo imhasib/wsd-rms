@@ -1,7 +1,7 @@
 spring:
   devtools:
     restart:
-      pool-interval: 2
+      enabled: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/rms
