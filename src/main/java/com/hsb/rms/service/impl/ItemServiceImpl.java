@@ -1,4 +1,4 @@
-package com.hsb.rms.repository.impl;
+package com.hsb.rms.service.impl;
 
 import com.hsb.rms.domain.Item;
 import com.hsb.rms.exception.ItemNotFoundException;
@@ -31,20 +31,20 @@ public class ItemServiceImpl implements ItemService {
         this.itemRepository = itemRepository;
     }
 
-    @PostConstruct
-    public void initDb() {
-        Random random = new Random();
-        List<Item> items = IntStream.rangeClosed(1, 200).mapToObj(i -> {
-            Item item = new Item();
-            item.setName("Item # " + i);
-            item.setUnit(random.nextInt(1000) + "gram");
-            item.setPrice(random.nextLong(5000));
-            item.setDetails("Auto generated");
-            return item;
-        }).collect(Collectors.toList());
-
-        this.itemRepository.saveAll(items);
-    }
+//    @PostConstruct
+//    public void initDb() {
+//        Random random = new Random();
+//        List<Item> items = IntStream.rangeClosed(1, 200).mapToObj(i -> {
+//            Item item = new Item();
+//            item.setName("Item # " + i);
+//            item.setUnit(random.nextInt(1000) + "gram");
+//            item.setPrice(random.nextLong(5000));
+//            item.setDetails("Auto generated");
+//            return item;
+//        }).collect(Collectors.toList());
+//
+//        this.itemRepository.saveAll(items);
+//    }
 
     @Override
     public Item save(Item item) {
