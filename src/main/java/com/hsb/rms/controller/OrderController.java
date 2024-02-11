@@ -55,6 +55,19 @@ public class OrderController {
 
 
     /**
+     * {@code GET  /orders} : get all the orders of specific user.
+     *
+     * @param userId the id of the user.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orders in body.
+     */
+    @GetMapping("/by/user/{userId}")
+    public ResponseEntity<List<OrderDto>> getAllOrders(@PathVariable("userId") Long userId) {
+        List<OrderDto> orderDtos = orderService.findAllOrdersByUser(userId);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+
+
+    /**
      * {@code POST  /orders} : Create a new order.
      *
      * @param orderDTO the orderDTO to create.

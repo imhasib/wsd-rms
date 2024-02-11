@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("select order from Order order where order.customer = :customer")
-    List<Order> findByCustomerIsCurrentUser(User customer);
+    @Query("select order from Order order where order.customer.id = :userId")
+    List<Order> findByCustomer(Long userId);
 
     default Optional<Order> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);

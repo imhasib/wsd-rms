@@ -1,10 +1,13 @@
 package com.hsb.rms.service.impl;
 
 import com.hsb.rms.domain.Order;
+import com.hsb.rms.domain.User;
 import com.hsb.rms.dto.OrderDto;
+import com.hsb.rms.dto.UserDto;
 import com.hsb.rms.repository.OrderRepository;
 import com.hsb.rms.service.OrderService;
 import com.hsb.rms.service.SaleService;
+import com.hsb.rms.service.UserService;
 import com.hsb.rms.service.mapper.OrderMapper;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,11 +35,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final SaleService saleService;
+    private final UserService userService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, SaleService saleService) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, SaleService saleService, UserService userService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.saleService = saleService;
+        this.userService = userService;
     }
 
     @Override
@@ -62,5 +68,16 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<OrderDto> findAllOrdersByUser(Long userId) {
+        Optional<UserDto> userDtoOpt = userService.findOne(userId);
+        if(userDtoOpt.isPresent()) {
+            return orderRepository.findByCustomer(userDtoOpt.get().getId())
+                    .stream()
+                    .map(orderMapper::toDto)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

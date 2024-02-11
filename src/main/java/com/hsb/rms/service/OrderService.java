@@ -44,4 +44,11 @@ public interface OrderService {
      * @return the list of orderDtos.
      */
     public List<OrderDto> findAllOrdersBetweenDates(Instant startDate, Instant endDate);
+
+    /**
+     * Get all the orderDtos of a customer.
+     *
+     * @return the list of orderDtos.
+     */
+    public List<OrderDto> findAllOrdersByUser(Long userId);
 }
