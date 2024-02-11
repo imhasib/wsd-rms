@@ -32,7 +32,7 @@ public class Order extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "paid_id", nullable = false)
-    private PayType paidId;
+    private PayType paidBy;
 
     @Column(name = "instruction")
     private String instruction;
@@ -86,17 +86,17 @@ public class Order extends AbstractAuditingEntity implements Serializable {
         this.bill = bill;
     }
 
-    public PayType getPaidId() {
-        return this.paidId;
+    public PayType getPaidBy() {
+        return this.paidBy;
     }
 
     public Order paidId(PayType paidId) {
-        this.setPaidId(paidId);
+        this.setPaidBy(paidId);
         return this;
     }
 
-    public void setPaidId(PayType paidId) {
-        this.paidId = paidId;
+    public void setPaidBy(PayType paidBy) {
+        this.paidBy = paidBy;
     }
 
     public String getInstruction() {
@@ -168,7 +168,7 @@ public class Order extends AbstractAuditingEntity implements Serializable {
             "id=" + getId() +
             ", counter='" + getCounter() + "'" +
             ", bill=" + getBill() +
-            ", paidId='" + getPaidId() + "'" +
+            ", paidId='" + getPaidBy() + "'" +
             ", instruction='" + getInstruction() + "'" +
             "}";
     }

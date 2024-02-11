@@ -95,7 +95,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             order.setCounter("Counter #" + random.nextInt(1,4));
             order.setServedBy(servedBy);
             order.setCustomer(customer);
-            order.setPaidId(PayType.CASH);
+            order.setPaidBy(PayType.CASH);
             order.setInstruction("Thanks!");
             return order;
         }).collect(Collectors.toList());
