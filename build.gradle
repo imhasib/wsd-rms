@@ -41,6 +41,8 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+task dockerRun(type: Exec) {
+	workingDir project.rootDir
+
+	commandLine 'docker-compose', 'up', '--build', '-d'
 }
