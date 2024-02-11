@@ -7,6 +7,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "t_order")
@@ -25,7 +27,7 @@ public class Order extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Column(name = "bill", nullable = false)
-    private Long bill;
+    private Long bill = 0L;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -41,6 +43,9 @@ public class Order extends AbstractAuditingEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User servedBy;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<Sale> sales = new ArrayList<>();
 
     public Long getId() {
         return this.id;
@@ -131,6 +136,14 @@ public class Order extends AbstractAuditingEntity implements Serializable {
     public Order servedBy(User user) {
         this.setServedBy(user);
         return this;
+    }
+
+    public List<Sale> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<Sale> sales) {
+        this.sales = sales;
     }
 
     @Override

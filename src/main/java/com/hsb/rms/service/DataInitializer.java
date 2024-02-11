@@ -1,10 +1,16 @@
 package com.hsb.rms.service;
 
 import com.hsb.rms.domain.Item;
+import com.hsb.rms.domain.Order;
+import com.hsb.rms.domain.Sale;
 import com.hsb.rms.domain.User;
+import com.hsb.rms.domain.enumeration.PayType;
 import com.hsb.rms.repository.ItemRepository;
+import com.hsb.rms.repository.OrderRepository;
+import com.hsb.rms.repository.SaleRepository;
 import com.hsb.rms.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -16,23 +22,41 @@ import java.util.stream.IntStream;
 
 @Component
 @Transactional
+@Slf4j
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
+    private final SaleRepository saleRepository;
 
-    public DataInitializer(UserRepository userRepository, ItemRepository itemRepository) {
+    public DataInitializer(UserRepository userRepository, ItemRepository itemRepository, OrderRepository orderRepository, SaleRepository saleRepository) {
         this.userRepository = userRepository;
         this.itemRepository = itemRepository;
+        this.orderRepository = orderRepository;
+        this.saleRepository = saleRepository;
     }
+
+    private final int NUMBER_OF_USERS = 10;
+    private final int NUMBER_OF_ITEMS = 10;
+    private final int NUMBER_OF_ORDERS = 100;
+    private final int MAX_NUMBER_OF_SALES = 5;
+    private final int MAX_QUANTITY_OF_ITEM = 3;
+    private final int MAX_PRICE_OF_ITEM = 400;
+
+    private List<User> users;
+    private List<Item> items;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        generateRandomUsers(10);
-        generateItems(200);
+        log.info("Generating dummy data...");
+        users = generateRandomUsers(NUMBER_OF_USERS);
+        items = generateItems(NUMBER_OF_ITEMS);
+        finalizeOrders(generateOrder(NUMBER_OF_ORDERS));
+        log.info("Data generation successful.");
     }
 
-    private void generateRandomUsers(int count) {
+    private List<User> generateRandomUsers(int count) {
         List<User> users = IntStream.rangeClosed(1, count).mapToObj(i -> {
             User user = new User();
             user.setName("User-" + i);
@@ -43,20 +67,72 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             return user;
         }).collect(Collectors.toList());
 
-        userRepository.saveAll(users);
+        return userRepository.saveAll(users);
     }
 
-    public void generateItems(int count) {
+    public List<Item> generateItems(int count) {
         Random random = new Random();
         List<Item> items = IntStream.rangeClosed(1, count).mapToObj(i -> {
             Item item = new Item();
             item.setName("Item # " + i);
-            item.setUnit(random.nextInt(1000) + " gram");
-            item.setPrice(random.nextLong(5000));
+            item.setUnit(random.nextInt(150) + " gram");
+            item.setPrice(random.nextLong(MAX_PRICE_OF_ITEM));
             item.setDetails("Auto generated");
             return item;
         }).collect(Collectors.toList());
 
-        this.itemRepository.saveAll(items);
+        return itemRepository.saveAll(items);
+    }
+
+    public List<Order> generateOrder(int count) {
+        Random random = new Random();
+        List<Order> orders = IntStream.rangeClosed(1, count).mapToObj(i -> {
+            Order order = new Order();
+
+            User servedBy = users.get(random.nextInt(users.size()));
+            User customer = users.get(random.nextInt(users.size()));
+
+            order.setCounter("Counter #" + random.nextInt(1,4));
+            order.setServedBy(servedBy);
+            order.setCustomer(customer);
+            order.setPaidId(PayType.CASH);
+            order.setInstruction("Thanks!");
+            return order;
+        }).collect(Collectors.toList());
+
+        return orderRepository.saveAll(orders);
+    }
+
+    public List<Order> finalizeOrders(List<Order> orders) {
+        orders = orders.stream().map(order -> {
+            List<Sale> sales = generateSales(order, MAX_NUMBER_OF_SALES);
+            long bill = sales.stream().mapToLong(sale -> sale.getTotal()).sum();
+            order.setBill(bill);
+            order.setSales(sales);
+            return order;
+        }).collect(Collectors.toList());
+
+        return orderRepository.saveAll(orders);
+    }
+
+    public List<Sale> generateSales(Order order, int maxSales) {
+        Random random = new Random();
+        List<Sale> sales = IntStream.rangeClosed(1, random.nextInt(maxSales)).mapToObj(i -> {
+            Sale sale = new Sale();
+
+            Item item = items.get(random.nextInt(items.size()));;
+            int qty = random.nextInt(1, MAX_QUANTITY_OF_ITEM);
+            long total = qty * item.getPrice();
+
+            sale.setItem(item);
+            sale.setQuantity(qty);
+            sale.setUnitPrice(item.getPrice());
+            sale.setTotal(total);
+            sale.setOrder(order);
+
+            return sale;
+        }).collect(Collectors.toList());
+
+        return saleRepository.saveAll(sales);
     }
 }

@@ -33,9 +33,9 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
     @Column(name = "total", nullable = false)
     private Long total;
 
-    @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "customer", "servedBy", "sales" }, allowSetters = true)
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne(optional = false)
