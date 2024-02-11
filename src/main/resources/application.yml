@@ -11,9 +11,9 @@ spring:
       poolName: Hikari
       auto-commit: false
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
+    show-sql: false
     properties:
       hibernate:
         dialect:
@@ -29,3 +29,8 @@ springdoc:
     path: /swagger-ui.html
   api-docs:
     path: /api-docs
+
+# application properties
+application:
+  title: WSD - Restaurant Management System
+  version: 0.0.1
