@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  rms-postgres:
+    image: postgres:latest
+    container_name: rms-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: rms
+    ports:
+      - "5432:5432"
+
+  rms:
+    build: .
+    container_name: rms
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rms-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://rms-postgres:5432/rms
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
