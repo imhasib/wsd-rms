@@ -106,7 +106,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     public List<Order> finalizeOrders(List<Order> orders) {
         orders = orders.stream().map(order -> {
             List<Sale> sales = generateSales(order, MAX_NUMBER_OF_SALES);
-            Double bill = sales.stream().mapToDouble(sale -> sale.getTotal()).sum();
+            Double bill = sales.stream().mapToDouble(sale -> sale.getQuantity() * sale.getUnitPrice()).sum();
             order.setBill(bill);
             order.setSales(sales);
             return order;
@@ -127,7 +127,6 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             sale.setItem(item);
             sale.setQuantity(qty);
             sale.setUnitPrice(item.getPrice());
-            sale.setTotal(total);
             sale.setOrder(order);
 
             return sale;

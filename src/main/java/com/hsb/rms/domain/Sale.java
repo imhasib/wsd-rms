@@ -30,10 +30,6 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
     private Double unitPrice;
 
     @NotNull
-    @Column(name = "total", nullable = false)
-    private Double total;
-
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
@@ -80,19 +76,6 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
     public Sale unitPrice(Double unitPrice) {
         this.setUnitPrice(unitPrice);
         return this;
-    }
-
-    public Sale total(Double total) {
-        this.setTotal(total);
-        return this;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
     }
 
     public Order getOrder() {
@@ -143,7 +126,6 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
             "id=" + getId() +
             ", quantity=" + getQuantity() +
             ", unitPrice=" + getUnitPrice() +
-            ", total=" + getTotal() +
             "}";
     }
 }
