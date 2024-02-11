@@ -1,10 +1,14 @@
 package com.hsb.rms.service;
 
+import com.hsb.rms.domain.Order;
 import com.hsb.rms.dto.OrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,4 +37,11 @@ public interface OrderService {
      * @return the orderDto.
      */
     Optional<OrderDto> findOne(Long id);
+
+    /**
+     * Get all the orderDtos of today.
+     *
+     * @return the list of orderDtos.
+     */
+    public List<OrderDto> findAllOrdersBetweenDates(Instant startDate, Instant endDate);
 }

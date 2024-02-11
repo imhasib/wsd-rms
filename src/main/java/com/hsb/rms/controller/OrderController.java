@@ -7,10 +7,15 @@ import com.hsb.rms.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +31,28 @@ public class OrderController {
         this.orderService = orderService;
         this.orderRepository = orderRepository;
     }
+
+    /**
+     * {@code GET  /orders} : get all the orders of specific date range.
+     *
+     * @param startDate the start of a specific date.
+     * @param endDate the end of a specific date.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orders in body.
+     */
+    @GetMapping("/by/date")
+    public ResponseEntity<List<OrderDto>> getAllOrders(
+        @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant startDate,
+        @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant endDate) {
+        if (startDate == null || endDate == null) {
+            LocalDate currentDate = LocalDate.now();
+            startDate = currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            endDate = currentDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).minusNanos(1).toInstant();
+        }
+
+        List<OrderDto> orderDtos = orderService.findAllOrdersBetweenDates(startDate, endDate);
+        return new ResponseEntity<>(orderDtos, HttpStatus.OK);
+    }
+
 
     /**
      * {@code POST  /orders} : Create a new order.

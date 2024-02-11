@@ -13,7 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,5 +52,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Optional<OrderDto> findOne(Long id) {
         return orderRepository.findOneWithEagerRelationships(id).map(orderMapper::toDto);
+    }
+
+    @Override
+    public List<OrderDto> findAllOrdersBetweenDates(Instant startDate, Instant endDate) {
+
+        return orderRepository.findAllOrdersBetweenDates(startDate, endDate)
+                .stream()
+                .map(orderMapper::toDto)
+                .collect(Collectors.toList());
+
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     }
     @Query("select order from Order order left join fetch order.customer left join fetch order.servedBy where order.id =:id")
     Optional<Order> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("SELECT o FROM Order o WHERE o.createdDate BETWEEN :startDate AND :endDate")
+    List<Order> findAllOrdersBetweenDates(@Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 }
