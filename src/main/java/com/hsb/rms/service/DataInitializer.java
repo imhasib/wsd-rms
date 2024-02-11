@@ -76,7 +76,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             Item item = new Item();
             item.setName("Item # " + i);
             item.setUnit(random.nextInt(150) + " gram");
-            item.setPrice(random.nextDouble(MAX_PRICE_OF_ITEM));
+            item.setPrice(Double.valueOf(random.nextInt(MAX_PRICE_OF_ITEM)));
             item.setDetails("Auto generated");
             return item;
         }).collect(Collectors.toList());
@@ -92,7 +92,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             User servedBy = users.get(random.nextInt(users.size()));
             User customer = users.get(random.nextInt(users.size()));
 
-            order.setCounter("Counter #" + random.nextInt(1,4));
+            order.setCounter("Counter #" + (random.nextInt(4)+1));
             order.setServedBy(servedBy);
             order.setCustomer(customer);
             order.setPaidBy(PayType.CASH);
@@ -121,7 +121,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             Sale sale = new Sale();
 
             Item item = items.get(random.nextInt(items.size()));;
-            int qty = random.nextInt(1, MAX_QUANTITY_OF_ITEM);
+            int qty = random.nextInt(MAX_QUANTITY_OF_ITEM) + 1;
             double total = qty * item.getPrice();
 
             sale.setItem(item);
