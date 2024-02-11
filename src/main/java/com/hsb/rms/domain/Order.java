@@ -27,7 +27,7 @@ public class Order extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Column(name = "bill", nullable = false)
-    private Long bill = 0L;
+    private Double bill = 0D;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -73,16 +73,16 @@ public class Order extends AbstractAuditingEntity implements Serializable {
         this.counter = counter;
     }
 
-    public Long getBill() {
-        return this.bill;
-    }
-
-    public Order bill(Long bill) {
+    public Order bill(Double bill) {
         this.setBill(bill);
         return this;
     }
 
-    public void setBill(Long bill) {
+    public Double getBill() {
+        return bill;
+    }
+
+    public void setBill(Double bill) {
         this.bill = bill;
     }
 

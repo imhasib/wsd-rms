@@ -15,7 +15,7 @@ public class ItemDto implements Serializable {
 
     private Long id;
     private String name;
-    private Long price;
+    private Double price;
     private String unit;
     private String details;
 }

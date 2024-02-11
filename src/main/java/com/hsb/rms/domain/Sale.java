@@ -27,11 +27,11 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Column(name = "unit_price", nullable = false)
-    private Long unitPrice;
+    private Double unitPrice;
 
     @NotNull
     @Column(name = "total", nullable = false)
-    private Long total;
+    private Double total;
 
     @NotNull
     @ManyToOne
@@ -69,29 +69,29 @@ public class Sale extends AbstractAuditingEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public Long getUnitPrice() {
-        return this.unitPrice;
+    public Double getUnitPrice() {
+        return unitPrice;
     }
 
-    public Sale unitPrice(Long unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Sale unitPrice(Double unitPrice) {
         this.setUnitPrice(unitPrice);
         return this;
     }
 
-    public void setUnitPrice(Long unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Long getTotal() {
-        return this.total;
-    }
-
-    public Sale total(Long total) {
+    public Sale total(Double total) {
         this.setTotal(total);
         return this;
     }
 
-    public void setTotal(Long total) {
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
         this.total = total;
     }
 

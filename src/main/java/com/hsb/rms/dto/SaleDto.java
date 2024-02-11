@@ -17,9 +17,7 @@ import java.io.Serializable;
 public class SaleDto implements Serializable {
     private Long id;
     private Integer quantity;
-    private Long unitPrice;
-    private Long total;
+    private Double unitPrice;
+    private Double total;
     private ItemDto item;
-
-
 }

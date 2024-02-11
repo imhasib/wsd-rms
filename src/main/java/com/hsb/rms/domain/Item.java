@@ -24,7 +24,7 @@ public class Item extends AbstractAuditingEntity implements Serializable {
 
     @NotNull
     @Column(name = "price", nullable = false)
-    private Long price;
+    private Double price;
 
     @Column(name = "unit")
     private String unit;
@@ -58,17 +58,17 @@ public class Item extends AbstractAuditingEntity implements Serializable {
         this.name = name;
     }
 
-    public Long getPrice() {
-        return this.price;
+    public Double getPrice() {
+        return price;
     }
 
-    public Item price(Long price) {
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Item price(Double price) {
         this.setPrice(price);
         return this;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
     }
 
     public String getUnit() {

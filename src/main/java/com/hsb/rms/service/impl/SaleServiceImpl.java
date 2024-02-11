@@ -6,6 +6,8 @@ import com.hsb.rms.service.SaleService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 @Transactional
 public class SaleServiceImpl implements SaleService {
@@ -18,5 +20,9 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Sale save(Sale sale) {
         return saleRepository.save(sale);
+    }
+
+    public Double totalSale(Instant startDate, Instant endDate) {
+        return saleRepository.getTotalSaleAmountForDateRange(startDate, endDate);
     }
 }

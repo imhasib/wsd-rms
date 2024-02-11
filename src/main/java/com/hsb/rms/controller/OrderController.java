@@ -4,6 +4,7 @@ import com.hsb.rms.dto.OrderDto;
 import com.hsb.rms.exception.InvalidInputException;
 import com.hsb.rms.repository.OrderRepository;
 import com.hsb.rms.service.OrderService;
+import com.hsb.rms.utils.DateUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,9 +45,8 @@ public class OrderController {
         @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant startDate,
         @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant endDate) {
         if (startDate == null || endDate == null) {
-            LocalDate currentDate = LocalDate.now();
-            startDate = currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-            endDate = currentDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).minusNanos(1).toInstant();
+            startDate = DateUtils.startOfTheCurrentDay();
+            endDate = DateUtils.endOfTheCurrentDay();
         }
 
         List<OrderDto> orderDtos = orderService.findAllOrdersBetweenDates(startDate, endDate);

@@ -76,7 +76,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             Item item = new Item();
             item.setName("Item # " + i);
             item.setUnit(random.nextInt(150) + " gram");
-            item.setPrice(random.nextLong(MAX_PRICE_OF_ITEM));
+            item.setPrice(random.nextDouble(MAX_PRICE_OF_ITEM));
             item.setDetails("Auto generated");
             return item;
         }).collect(Collectors.toList());
@@ -106,7 +106,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     public List<Order> finalizeOrders(List<Order> orders) {
         orders = orders.stream().map(order -> {
             List<Sale> sales = generateSales(order, MAX_NUMBER_OF_SALES);
-            long bill = sales.stream().mapToLong(sale -> sale.getTotal()).sum();
+            Double bill = sales.stream().mapToDouble(sale -> sale.getTotal()).sum();
             order.setBill(bill);
             order.setSales(sales);
             return order;
@@ -122,7 +122,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
             Item item = items.get(random.nextInt(items.size()));;
             int qty = random.nextInt(1, MAX_QUANTITY_OF_ITEM);
-            long total = qty * item.getPrice();
+            double total = qty * item.getPrice();
 
             sale.setItem(item);
             sale.setQuantity(qty);
