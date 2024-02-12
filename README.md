@@ -8,7 +8,8 @@
 * Open API Documentation
 * Auditing with JPA
 * Log Visualization with Graylog
-*
+* [Deployed to AWS EC2 server](http://ec2-15-206-187-22.ap-south-1.compute.amazonaws.com:8080/swagger-ui/index.html)
+* Continuous integration with Github action
 
 ## Technology Stack:
 
@@ -63,7 +64,7 @@ Import the below file into the Postman:
 
 * Hit the URL deployed version should be appeared.
 
-          ec2-15-206-187-22.ap-south-1.compute.amazonaws.com:8080/swagger-ui/index.html
+          http://ec2-15-206-187-22.ap-south-1.compute.amazonaws.com:8080/swagger-ui/index.html
 
 ### Docker Hub Repository
 

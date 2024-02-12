@@ -1,10 +1,10 @@
 FROM openjdk:17-alpine
 
-WORKDIR /app
-
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=./build/libs/*.jar
 
 COPY ${JAR_FILE} /app/rms.jar
+
+WORKDIR /app
 
 EXPOSE 8080
 
