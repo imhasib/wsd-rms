@@ -1,3 +1,15 @@
+### Features
+
+* Dockerized
+* Input validation
+* Centralized exception handler
+* Logging (rms.log file in the project directory)
+* DTO mapper
+* Open API Documentation
+* Auditing with JPA
+* Log Visualization with Graylog
+*
+
 ## Technology Stack:
 
 * Open JDK 17
@@ -38,11 +50,11 @@ Import the below file into the Postman:
 
         ./rms-postman.json
 
-### Features
-* Dockerized
-* Input validation
-* Centralized exception handler
-* Logging (rms.log file in the project directory)
-* DTO mapper
-* Open API Documentation
-* Auditing with JPA
+### Log visualization
+
+* Simply run the docker compose file
+
+      docker-compose -f graylog-docker-compose.yml up
+* hit the URL
+
+      http://localhost:9000/
