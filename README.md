@@ -58,3 +58,13 @@ Import the below file into the Postman:
 * hit the URL
 
       http://localhost:9000/
+
+### AWS Deployment:
+
+* Hit the URL deployed version should be appeared.
+
+          ec2-15-206-187-22.ap-south-1.compute.amazonaws.com:8080/swagger-ui/index.html
+
+### Docker Hub Repository
+
+      docker pull imhasib/rms
