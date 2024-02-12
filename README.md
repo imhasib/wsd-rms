@@ -8,7 +8,7 @@
 ## Quick Start
 * Docker 4.27.1 (latest)
 
-        gradlew dockerRun
+        gradlew build dockerRun
 * Every thing will be ready with the randomly generated data and hit the URL:
 
         http://localhost:8080/home
@@ -23,7 +23,7 @@
 
 
 ### Open API documentation:
-There are some other API end points to manage Users, Items, Sales, Order
+There are some other API end points that was exposed to manage Users, Items, Sales, Order
 
 * Swagger UI:
 
@@ -32,6 +32,11 @@ There are some other API end points to manage Users, Items, Sales, Order
 
         http://localhost:8080/v3/api-docs
 
+
+### Postman API Collection
+Import the below file into the Postman:
+
+        ./rms-postman.json
 
 ### Features
 * Dockerized
