@@ -9,25 +9,18 @@ import com.hsb.rms.repository.UserRepository;
 import com.hsb.rms.service.UserService;
 import com.hsb.rms.service.mapper.AccountMapper;
 import com.hsb.rms.service.mapper.UserMapper;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+@Slf4j
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AccountMapper accountMapper;
@@ -45,7 +38,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = accountMapper.toEntity(accountDto);
         user = userRepository.save(user);
-        logger.info("User created:" + user.getEmail());
+        log.info("User created:" + user.getEmail());
         return userMapper.toDto(user);
     }
 
@@ -59,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        logger.info("Fetching User list.");
+        log.info("Retrieving all of the registered customer for page: {}", pageable.getOffset());
         return userRepository.findAll(pageable).map(userMapper::toDto);
     }
 
@@ -69,8 +62,6 @@ public class UserServiceImpl implements UserService {
         if (user.isEmpty()) {
             throw new UserNotFoundException(id);
         }
-
-        logger.info("User found:" + user.get().getEmail());
         return user.map(userMapper::toDto);
     }
 

@@ -6,6 +6,7 @@ import com.hsb.rms.repository.SaleRepository;
 import com.hsb.rms.service.CustomQueryExecutor;
 import com.hsb.rms.service.SaleService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 public class SaleServiceImpl implements SaleService {
@@ -31,10 +33,12 @@ public class SaleServiceImpl implements SaleService {
     }
 
     public Double totalSale(Instant startDate, Instant endDate) {
+        log.info("Retrieving total sale between the day of {} and {}.", startDate, endDate);
         return saleRepository.getTotalSaleAmountForDateRange(startDate, endDate);
     }
 
     public MaxSaleDayDto getMaxSaleDay(Instant startDate, Instant endDate) throws ParseException {
+        log.info("Retrieving max sale day between {} and {}.", startDate, endDate);
         StringBuffer queryString = new StringBuffer();
         queryString.append(" SELECT");
         queryString.append(" EXTRACT(DAY FROM s.created_date) AS d,");
