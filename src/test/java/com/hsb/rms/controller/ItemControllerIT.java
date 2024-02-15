@@ -70,7 +70,7 @@ class ItemControllerIT {
         HashMap<String, Object> itemsPage = restTemplate.getForObject(endPoint, HashMap.class);
         List<Item> items = (List<Item>) itemsPage.get("content");
 
-        assertEquals(10, items.size());
+        assertEquals(11, items.size());
     }
 
     @Test
