@@ -10,6 +10,7 @@ import com.hsb.rms.repository.OrderRepository;
 import com.hsb.rms.repository.SaleRepository;
 import com.hsb.rms.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -23,19 +24,13 @@ import java.util.stream.IntStream;
 @Component
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final SaleRepository saleRepository;
-
-    public DataInitializer(UserRepository userRepository, ItemRepository itemRepository, OrderRepository orderRepository, SaleRepository saleRepository) {
-        this.userRepository = userRepository;
-        this.itemRepository = itemRepository;
-        this.orderRepository = orderRepository;
-        this.saleRepository = saleRepository;
-    }
 
     private final int NUMBER_OF_USERS = 10;
     private final int NUMBER_OF_ITEMS = 10;
