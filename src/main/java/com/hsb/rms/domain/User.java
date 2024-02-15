@@ -1,17 +1,14 @@
 package com.hsb.rms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hsb.rms.config.Constants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
-import java.util.Locale;
 
 @Entity
 @Table(name = "t_user")
@@ -54,12 +51,22 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
+    public User id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getLogin() {
         return login;
     }
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public User login(String login) {
+        this.login = login;
+        return this;
     }
 
     public String getPassword() {
@@ -70,12 +77,27 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.password = password;
     }
 
+    public User password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public User name(String name) {
+        this.name = name;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User email(String email) {
+        this.email = email;
+        return this;
     }
 
     public String getEmail() {
@@ -92,6 +114,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public User activated(boolean activated) {
+        this.activated = activated;
+        return this;
     }
 
     @Override

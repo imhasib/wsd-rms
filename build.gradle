@@ -41,10 +41,17 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
 
 	implementation group: 'de.siegmar', name: 'logback-gelf', version: '5.0.1'
+
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+
 }
 
 task dockerRun(type: Exec) {
 	workingDir project.rootDir
 
 	commandLine 'docker-compose', 'up', '--build', '-d'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
